@@ -11,6 +11,9 @@ pipeline {
             steps {
                 dir('./tests') {
                     bat 'npm ci'
+                    bat 'npx playwright test'
+                    bat 'npx allure generate allure-results --clean -o allure-report'
+                    bat 'npx allure open allure-report'
                 }
             }
         }
