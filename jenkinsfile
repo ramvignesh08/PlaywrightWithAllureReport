@@ -9,22 +9,21 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                dir('./tests'){
+                dir('./tests') {
                     npm ci
                 }
             }
         }
         stage('Run Playwright Tests') {
             steps {
-                dir('./tests'){
+                dir('./tests') {
                     npm run testCase
                 }
-                
             }
         }
         stage('Allure Report') {
             steps {
-                dir('./tests'){
+                dir('./tests') {
                     npm run generate
                     npm run open
                 }
