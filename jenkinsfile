@@ -22,8 +22,6 @@ pipeline {
                 dir('./tests'){
                     npx allure serve ./allure-results
                 }
-                // Requires Allure Jenkins plugin
-                // allure includeProperties: false, jdk: '', results: [[path: './allure-results']]
             }
         }
     }
