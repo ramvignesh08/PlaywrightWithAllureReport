@@ -1,25 +1,18 @@
 pipeline {
     agent any
-
     stages {
         stage('Install Dependencies') {
             steps {
-                dir('./tests'){
-                        npm ci
-                        npx playwright test
-                        npx allure generate ./allure-results -o ./allure-report
-            }
-    } 
-            post {
-                always {
-                    archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
-                    archiveArtifacts artifacts: 'allure-report/**', allowEmptyArchive: true
+                dir('./tests') {
+                    npm ci
+                    npx playwright test
+                    npx allure generate ./allure-results -o ./allure-report
                 }
             }
         }
         stage('Publish Allure Report') {
             steps {
-                dir('./tests'){
+                dir('./tests') {
                     npx allure serve ./allure-results
                 }
             }
