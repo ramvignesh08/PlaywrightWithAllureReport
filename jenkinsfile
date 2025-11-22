@@ -25,6 +25,7 @@ pipeline {
         }
         stage('Email Allure Report Link') {
             steps {
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
                 script {
                     def allureReportLink = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/allure/"
                     echo "Allure Report Link: ${allureReportLink}"
