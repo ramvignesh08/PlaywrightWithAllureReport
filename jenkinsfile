@@ -19,6 +19,29 @@ pipeline {
                 }
             }
         }
+        stage('Archive Report') {
+            steps {
+                archiveArtifacts artifacts: 'allure-report', followSymlinks: false
+            }
+        }
+        stage('Email Allure Report Link') {
+            steps {
+                script {
+                    def allureReportLink = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/allure/"
+                    emailext (
+                        to: 'ramvignesh85@gmail.com',
+                        subject: "Allure Report for ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                        body: """
+                            Hello,
+                            The Allure report for build #${env.BUILD_NUMBER} of job ${env.JOB_NAME} is available at:
+                            ${allureReportLink}
+                            Regards,
+                            Jenkins
+                        """
+                    )
+                }
+            }
+        }
     }
 
     post {
