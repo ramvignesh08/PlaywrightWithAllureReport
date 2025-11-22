@@ -1,21 +1,33 @@
 pipeline {
     agent any
+
+    environment {
+        NODE_ENV = 'test'
+        ALLURE_RESULTS = './allure-results'
+    }
+
     stages {
         stage('Install Dependencies') {
             steps {
-                dir('./tests') {
-                    npm ci
-                    npx playwright test
-                    npx allure generate ./allure-results -o ./allure-report
-                }
+                npm ci
             }
         }
-        stage('Publish Allure Report') {
+        stage('Run Playwright Tests') {
             steps {
-                dir('./tests') {
-                    npx allure serve ./allure-results
-                }
+                npx playwright test
             }
+        }
+        stage('Allure Report') {
+            steps {
+                npx allure generate allure-results --clean -o allure-report
+                npx allure open allure-report
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Completed...'
         }
     }
 }
