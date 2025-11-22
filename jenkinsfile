@@ -4,10 +4,12 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
+                dir('./PlaywrightWithAllureReport'){
                         sh 'npm ci'
                         sh 'npx playwright test'
-                        sh 'npx allure generate allure-results --clean -o allure-report'
+                        sh 'npx allure generate ./allure-results -o ./allure-report'
             }
+    } 
             post {
                 always {
                     archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
@@ -17,8 +19,11 @@ pipeline {
         }
         stage('Publish Allure Report') {
             steps {
+                dir('./PlaywrightWithAllureReport'){
+                    sh 'npx allure serve ./allure-results'
+                }
                 // Requires Allure Jenkins plugin
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                // allure includeProperties: false, jdk: '', results: [[path: './allure-results']]
             }
         }
     }
