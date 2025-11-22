@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Run tests in Docker') {
+            steps {
+                script {
+                    docker.image('mcr.microsoft.com/playwright:v1.45.1-jammy').inside('-u root') {
+                        sh 'npm ci'
+                        sh 'npx playwright test'
+                        sh 'npx allure generate allure-results --clean -o allure-report'
+                    }
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'allure-report/**', allowEmptyArchive: true
+                }
+            }
+        }
+        stage('Publish Allure Report') {
+            steps {
+                // Requires Allure Jenkins plugin
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            }
+        }
+    }
+}
