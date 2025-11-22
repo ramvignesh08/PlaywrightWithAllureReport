@@ -28,7 +28,7 @@ pipeline {
                 script {
                     def allureReportLink = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/allure/"
                     emailext (
-                        to: 'ramvignesh85@gmail.com',
+                        to: 'mailtovigneshr95@gmail.com',
                         subject: "Allure Report for ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
                         body: """
                             Hello,
