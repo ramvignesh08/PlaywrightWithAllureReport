@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                dir('./tests') {
+                dir('./') {
                     bat 'npm ci'
                     bat 'npx playwright test'
                     bat 'npx allure generate allure-results --clean -o allure-report'
