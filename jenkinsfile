@@ -17,15 +17,15 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 dir('./tests') {
-                    npm run testCase
+                    npm run npx playwright test
                 }
             }
         }
         stage('Allure Report') {
             steps {
                 dir('./tests') {
-                    npm run generate
-                    npm run open
+                    npm run npx allure generate allure-results --clean -o allure-report
+                    npm run npx allure open allure-report
                 }
             }
         }
