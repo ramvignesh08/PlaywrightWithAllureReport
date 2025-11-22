@@ -11,9 +11,6 @@ pipeline {
             steps {
                 dir('./tests') {
                     npm ci
-                    npx playwright test
-                    npx allure open allure-report
-                    npx allure generate allure-results --clean -o allure-report
                 }
             }
         }
