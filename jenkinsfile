@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                dir('./PlaywrightWithAllureReport'){
+                dir('./'){
                         sh 'npm ci'
                         sh 'npx playwright test'
                         sh 'npx allure generate ./allure-results -o ./allure-report'
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Publish Allure Report') {
             steps {
-                dir('./PlaywrightWithAllureReport'){
+                dir('./'){
                     sh 'npx allure serve ./allure-results'
                 }
                 // Requires Allure Jenkins plugin
