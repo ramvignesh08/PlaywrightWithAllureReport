@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Archive Report') {
             steps {
-                archiveArtifacts artifacts: 'allure-report', followSymlinks: false
+                archiveArtifacts artifacts: './allure-report', followSymlinks: false
             }
         }
         stage('Email Allure Report Link') {
