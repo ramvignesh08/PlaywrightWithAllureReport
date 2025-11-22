@@ -10,22 +10,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir('./tests') {
-                    sh 'npm ci'
-                }
-            }
-        }
-        stage('Run Playwright Tests') {
-            steps {
-                dir('./tests') {
-                    sh 'npx playwright test'
-                }
-            }
-        }
-        stage('Allure Report') {
-            steps {
-                dir('./tests') {
-                    sh 'npx allure generate allure-results --clean -o allure-report'
-                    sh 'npx allure open allure-report'
+                    npm ci
+                    npx playwright test
+                    npx allure open allure-report
+                    npx allure generate allure-results --clean -o allure-report
                 }
             }
         }
