@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NODE_ENV = 'test'
+        sh_ENV = 'test'
         ALLURE_RESULTS = './allure-results'
     }
 
@@ -10,22 +10,22 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir('./tests') {
-                    cmd 'npm ci'
+                    sh 'npm ci'
                 }
             }
         }
         stage('Run Playwright Tests') {
             steps {
                 dir('./tests') {
-                    cmd 'npx playwright test'
+                    sh 'npx playwright test'
                 }
             }
         }
         stage('Allure Report') {
             steps {
                 dir('./tests') {
-                    cmd 'npx allure generate allure-results --clean -o allure-report'
-                    cmd 'npx allure open allure-report'
+                    sh 'npx allure generate allure-results --clean -o allure-report'
+                    sh 'npx allure open allure-report'
                 }
             }
         }
